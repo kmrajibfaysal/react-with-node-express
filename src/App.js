@@ -12,6 +12,13 @@ function App() {
     return (
         <div className="m-36">
             <h1 className="text-6xl font-black">{users.length} </h1>
+            <ul className="bg-slate-500 p-4 text-center text-2xl">
+                {users.map((user) => (
+                    <li key={user.id}>
+                        Name:{user.name}, Email: {user.email}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
