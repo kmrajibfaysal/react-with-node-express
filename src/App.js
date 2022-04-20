@@ -9,24 +9,53 @@ function App() {
             .then((data) => setUsers(data));
     }, []);
 
+    const handleAddUser = (event) => {
+        event.preventDefault();
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const user = { name, email };
+        // Post data to server
+
+        fetch('http://localhost:5000/user', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
     return (
         <div className="mx-auto h-full w-full bg-pink-100">
             <h1 className="text-6xl font-black">{users.length} </h1>
-            <form className="mx-auto mb-20 w-1/2 text-gray-700">
+            <form onSubmit={handleAddUser} className="mx-auto mb-20 w-1/2 text-gray-700">
                 <input
+                    required
                     className="my-4 rounded p-2 text-xl"
                     type="text"
                     name="name"
                     placeholder="Name"
                 />
                 <input
+                    required
                     className="my-4 rounded p-2 text-xl"
                     type="email"
                     name="email"
                     placeholder="Email"
                 />{' '}
                 <br />
-                <input className="rounded bg-green-400 px-6 py-2" type="submit" value="Add user" />
+                <input
+                    className="cursor-pointer rounded bg-green-400 px-6 py-2"
+                    type="submit"
+                    value="Add user"
+                />
             </form>
             <ul className="bg-slate-500 p-4 text-center text-xl">
                 {users.map((user) => (
